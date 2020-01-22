@@ -51,8 +51,7 @@ std::string generate_swaston(const std::string &s) {
             lower += r_vec[c];
             lower += '\n';
         } else {
-            lower += tab_pre;
-            lower += ' ';
+            lower += tab_post;
             lower += l_vec[c];
             lower += tab_pre;
             lower += r_vec[c];
