@@ -12,22 +12,22 @@ std::string generate_swaston(const std::string &s) {
     }
     std::string
             l_spaced_word = utf8_join(s, " "),
-            r_spaced_word = utf8_reverse(utf8_join(s, " ")),
+            r_spaced_word = utf8_reverse(l_spaced_word),
             l_word = utf8_reverse(s),
+            r_word = s,
             center = l_spaced_word + utf8_substr(r_spaced_word, 1) + '\n',
-            tab_pre = std::string(utf8::distance(r_spaced_word.begin(), r_spaced_word.end()) - size_t(2), ' '),
+            tab_pre = std::string(utf8::distance(r_spaced_word.begin(), r_spaced_word.end()) - 2, ' '),
             tab_post = tab_pre + " ", // extended tab
             upper,
-            lower,
-            final;
+            lower;
 
     std::vector<std::string>
-            r_vec = utf8_to_vector(s), // s == left-to-right word
+            r_vec = utf8_to_vector(r_word),
             l_vec = utf8_to_vector(l_word); // convert utf-8 string to vector of strings
 
-    size_t size = l_vec.size();
+    size_t length = l_vec.size();
 
-    for (size_t c = 0; c != size - 1; c++) { // upper side
+    for (size_t c = 0; c != length - 1; c++) { // upper side
 
         if (c == 0) { // case first row
             upper += l_vec[c];
@@ -44,8 +44,8 @@ std::string generate_swaston(const std::string &s) {
         }
     }
 
-    for (size_t c = 1; c != size; c++) { // lower side
-        if (c == size - 1) { // case last row
+    for (size_t c = 1; c != length; c++) { // lower side
+        if (c == length - 1) { // case last row
             lower += r_spaced_word;
             lower += tab_pre;
             lower += r_vec[c];
@@ -59,10 +59,7 @@ std::string generate_swaston(const std::string &s) {
         }
     }
 
-    final.append(upper);
-    final.append(center);
-    final.append(lower);
-    return final;
+    return upper + center + lower;
 }
 
 #endif
